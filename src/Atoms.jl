@@ -18,6 +18,14 @@ function (prop::Properties{T})(val::T) where T<:Any
     prop.value = val 
 end
 
+function Base.print(prop::Properties)
+    print("Property: ", prop.name, "\nValue: ", prop.value)
+end
+
+function Base.println(prop::Properties)
+    print(prop, "\n")
+end
+
 mutable struct Atoms
     atom::Array{Atom, 1}
     number::Int64
