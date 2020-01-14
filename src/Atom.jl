@@ -1,4 +1,6 @@
-mutable struct Atom
+abstract type AbstractAtom end
+
+mutable struct Atom <: AbstractAtom
     symbol::String
     position::Array{Float64, 1}
 
@@ -10,4 +12,10 @@ mutable struct Atom
             new(sym, Array{Float64, 1}(pos))
         end
     end
+end
+
+function Base.:(==)(atom1::AbstractAtom, atom2::AbstractAtom)
+    atom1.symbol == atom2.symbol || return false
+    atom1.position == atom2.position || return false
+    return true
 end
