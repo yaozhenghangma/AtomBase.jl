@@ -14,6 +14,10 @@ mutable struct Atom <: AbstractAtom
     end
 end
 
+function (atom::Atom)()
+    return atom.symbol, atom.position
+end
+
 function Base.:(==)(atom1::AbstractAtom, atom2::AbstractAtom)
     atom1.symbol == atom2.symbol || return false
     atom1.position == atom2.position || return false
