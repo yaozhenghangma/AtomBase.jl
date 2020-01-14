@@ -1,11 +1,21 @@
-mutable struct Properties
-    name::String 
-    value
+abstract type AbstractProperties end
 
-    Properties() = new(" ", 0.0)
-    function Properties(name::String, val)
-        new(name, val)
+mutable struct Properties{T}<: AbstractProperties where T<:Any 
+    name::String 
+    value::T
+
+    Properties() = new{Float64}(" ", 0.0)
+    function Properties{U}(name::String, val::U) where U<:Any
+        new{U}(name, val)
     end
+end
+
+function (prop::Properties)()
+    return prop.value 
+end
+
+function (prop::Properties{T})(val::T) where T<:Any 
+    prop.value = val 
 end
 
 mutable struct Atoms
