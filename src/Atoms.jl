@@ -36,16 +36,16 @@ function (prop::AbstractProperties)(val)
 end
 
 function Base.show(io::IO, prop::AbstractProperties)
-    print(prop.name, "=", prop.value)
+    print(io, prop.name, "=", prop.value)
 end
 
 mutable struct Atoms
     atom::Array{AbstractAtom, 1}
     number::Int64
-    Properties::Array{AbstractProperties, 1}
+    properties::Array{AbstractProperties, 1}
 
     Atoms() = new(Array{Atom, 1}(undef, 0), 0, Array{Properties, 1}(undef, 0))
-    function Atoms(atom::Array{Atom, 1}, num::Int64, prop::Array{Properties, 1})
+    function Atoms(atom::Array{T1, 1}, num::Int64, prop::Array{T2, 1}) where T1<:AbstractAtom where T2<:AbstractProperties
         if num == length(atom)
             new(atom, num, prop)
         else
@@ -53,23 +53,23 @@ mutable struct Atoms
         end
     end
 
-    function Atoms(atom::Array{Atom, 1}, prop::Array{Properties, 1})
+    function Atoms(atom::Array{T1, 1}, prop::Array{T2, 1}) where T1<:AbstractAtom where T2<:AbstractProperties
         Atoms(atom, length(atom), prop)
     end
 
-    function Atoms(atom::Array{Atom, 1})
+    function Atoms(atom::Array{T, 1}) where T<:AbstractAtom
         Atoms(atom, length(atom), Array{Properties, 1}(undef, 0))
     end
 
-    function Atoms(atom::Atom, prop::Array{Properties, 1})
+    function Atoms(atom::T1, prop::Array{T2, 1}) where T1<:AbstractAtom where T2<:AbstractProperties
         Atoms([atom, ], 1, prop)
     end
 
-    function Atoms(atom::Atom)
+    function Atoms(atom::AbstractAtom)
         Atoms([atom, ], 1, Array{Float64, 1}(undef, 0))
     end
 
-    function Atoms(atom::Array{Atom, 1}, num::Int64, prop::Properties)
+    function Atoms(atom::Array{T, 1}, num::Int64, prop::AbstractProperties) where T<:AbstractAtom
         if num == length(Array)
             new(atom, num, [prop, ])
         else
@@ -77,11 +77,51 @@ mutable struct Atoms
         end
     end
 
-    function Atoms(atom::Array{Atom, 1}, prop::Properties)
+    function Atoms(atom::Array{T, 1}, prop::AbstractProperties) where T<:AbstractAtom
         Atoms(atom, length(atom), [prop, ])
     end
 
-    function Atoms(atom::Atom, prop::Properties)
+    function Atoms(atom::AbstractAtom, prop::AbstractProperties)
         Atoms([atom, ], 1, [prop, ])
+    end
+end
+
+# add new atom
+function addAtom!(atoms::Atoms, atom::AbstractAtom)
+    atoms.atom = [atoms.atom..., atom]
+    atoms.number += 1
+end
+
+# add new property
+function addProperty!(atoms::Atoms, prop::AbstractProperties)
+    atoms.properties = [atoms.properties..., prop]
+end
+
+function Base.iterate(atoms::Atoms, state=1) 
+    state > atoms.number ? nothing : (atoms.atom[state], state+1)
+end
+
+function Base.length(atoms::Atoms)
+    atoms.number
+end
+
+function Base.getindex(atoms::Atoms, i::Int)
+    1 <= i <= atoms.number || throw(BoundsError(atoms, i))
+    return atoms.atom[i]
+end
+
+Base.firstindex(atoms::Atoms) = 1
+Base.lastindex(atoms::Atoms) = length(atoms)
+Base.getindex(atoms::Atoms, i::Number) = atoms[convert(Int, i)]
+Base.getindex(atoms::Atoms, I) = [atoms[i] for i in I]
+
+function Base.show(io::IO, atoms::Atoms)
+    println(io, atoms.number)
+    for prop in atoms.properties
+        print(io, prop, " ")
+    end
+    print("\n")
+    for atom in atoms
+        println(io, atom)
     end
 end
