@@ -88,13 +88,13 @@ end
 
 # add new atom
 function addAtom!(atoms::Atoms, atom::AbstractAtom)
-    atoms.atom = [atoms.atom..., atom]
+    push!(atoms.atom, atom)
     atoms.number += 1
 end
 
 # add new property
 function addProperty!(atoms::Atoms, prop::AbstractProperties)
-    atoms.properties = [atoms.properties..., prop]
+    push!(atoms.properties, prop)
 end
 
 function Base.iterate(atoms::Atoms, state=1) 
