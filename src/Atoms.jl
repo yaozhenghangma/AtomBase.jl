@@ -66,7 +66,7 @@ mutable struct Atoms
     end
 
     function Atoms(atom::AbstractAtom)
-        Atoms([atom, ], 1, Array{Float64, 1}(undef, 0))
+        Atoms([atom, ], 1, Array{Properties, 1}(undef, 0))
     end
 
     function Atoms(atom::Array{T, 1}, num::Int64, prop::AbstractProperties) where T<:AbstractAtom
