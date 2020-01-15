@@ -70,7 +70,7 @@ mutable struct Atoms
     end
 
     function Atoms(atom::Array{T, 1}, num::Int64, prop::AbstractProperties) where T<:AbstractAtom
-        if num == length(Array)
+        if num == length(atom)
             new(atom, num, [prop, ])
         else
             throw(BoundsError(atom, num))
@@ -120,7 +120,7 @@ function Base.show(io::IO, atoms::Atoms)
     for prop in atoms.properties
         print(io, prop, " ")
     end
-    print("\n")
+    print(io, "\n")
     for atom in atoms
         println(io, atom)
     end
