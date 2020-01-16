@@ -14,6 +14,7 @@ end
 @testset "Atoms.jl Properties" begin
     property1 = Properties()
     property2 = Properties{Float64}("Force", 1.0)
+    property3 = Properties("energy")
     energy1 = Energy()
     energy2 = Energy(1.0)
     energy3 = Energy(2)
@@ -26,7 +27,7 @@ end
     show(io, property2)
     @test String(take!(io)) == "Force=1.0"
     show(io, energy3)
-    @test String(take!(io)) == "Energy=2.0"
+    @test String(take!(io)) == "energy=2.0"
 end
 
 @testset "Atoms.jl Atoms" begin
@@ -56,5 +57,5 @@ end
     @test getindex(atoms2, [1, 2]) == [atom, atom]
     io = IOBuffer()
     show(io, atoms8)
-    @test String(take!(io)) == "1\nEnergy=1.0 \nH\t[1.0, 0.0, 0.0]\n"
+    @test String(take!(io)) == "1\nenergy=1.0 \nH\t[1.0, 0.0, 0.0]\n"
 end

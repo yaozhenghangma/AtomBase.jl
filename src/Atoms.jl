@@ -5,6 +5,7 @@ mutable struct Properties{T<:Any}<: AbstractProperties
     value::T
 
     Properties() = new{Float64}(" ", 0.0)
+    Properties(name::String) = new{Float64}(name, 0.0)
     function Properties{U}(name::String, val::U) where U<:Any
         new{U}(name, val)
     end
@@ -14,8 +15,8 @@ mutable struct Energy <: AbstractProperties
     name::String
     value::Float64
 
-    Energy() = new("Energy", 0.0)
-    Energy(val::Float64) = new("Energy", val)
+    Energy() = new("energy", 0.0)
+    Energy(val::Float64) = new("energy", val)
     Energy(val::Real) = Energy(Float64(val))
 end
 
