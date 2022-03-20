@@ -7,7 +7,7 @@ mutable struct Atom <: AbstractAtom
     Atom() = new(" ", [0.0, 0.0, 0.0])
     function Atom(sym::String, pos::Array{T, 1}) where T<:Real
         if length(pos) != 3
-            throw(BoundsError(pos, length(pos)))
+            throw("Certesian coordinate of atom " * sym * " should be a 3d vector.")
         else
             new(sym, Array{Float64, 1}(pos))
         end
