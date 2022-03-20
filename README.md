@@ -1,6 +1,5 @@
 # AtomBase
 
-[![Build Status](https://travis-ci.com/yaozhenghangma/AtomBase.jl.svg?branch=master)](https://travis-ci.com/yaozhenghangma/AtomBase.jl)
-[![Codecov](https://codecov.io/gh/yaozhenghangma/AtomBase.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/yaozhenghangma/AtomBase.jl)
-
+[![test](https://github.com/yaozhenghangma/AtomBase.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/yaozhenghangma/AtomBase.jl)
+[![release](https://img.shields.io/github/release/yaozhenghangma/AtomBase.jl)](https://github.com/yaozhenghangma/AtomBase.jl/releases)
 Type and interface definition for atomic environment.
